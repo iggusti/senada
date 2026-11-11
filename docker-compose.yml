@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: senada-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: senada_db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - senada_mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: senada-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: senada-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  senada_mysql_data:
